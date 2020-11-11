@@ -4,19 +4,43 @@ import bodyParser from "body-parser";
 import {Request, Response} from "express";
 import {Routes} from "./routes";
 import {User} from "./entity/User";
-import { createConnection, ConnectionOptions } from "typeorm";
+import { createConnection, ConnectionOptions, getConnectionOptions } from "typeorm";
 
-createConnection(
-  <ConnectionOptions>{
-    type: "postgres",
-    extra: {  ssl: process.env.DATABASE_URL ? true : false, },
-    // Change the next line to use the Heroku postgresql from other environment like localhost, remenber that heroku changes this data periodically for security reasons
-    url: process.env.DATABASE_URL || "postgres://test:test@localhost:5432/test", 
-    entities: [ "dist/entity/**/*.js" ],
-    subscribers: [],
-    synchronize: true,
+console.log("start")
+console.log(process.env.DATABASE_URL)
+console.log("postgres://test:test@localhost:5432/test")
+
+const getOptions = async () => {
+  let connectionOptions: ConnectionOptions;
+  connectionOptions = {
+    type: 'postgres',
+    synchronize: false,
+    logging: false,
+    extra: {
+      ssl: true,
+    },
+    entities: ['dist/entity/*.*'],
+  };
+  if (process.env.DATABASE_URL) {
+    console.log("use HEROKU")
+    Object.assign(connectionOptions, { url: process.env.DATABASE_URL });
+  } else {
+    // gets your default configuration
+    // you could get a specific config by name getConnectionOptions('production')
+    // or getConnectionOptions(process.env.NODE_ENV)
+    console.log("use local")
+    connectionOptions = await getConnectionOptions(); 
   }
-).then(async connection => {
+  return connectionOptions;
+};
+
+const connect2Database = async (): Promise<any> => {
+  const typeormconfig = await getOptions();
+  let result = await createConnection(typeormconfig);
+  return result;
+};
+
+connect2Database().then(async connection => {
 
     // create express app
     const app = express();
