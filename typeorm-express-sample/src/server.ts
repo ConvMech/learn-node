@@ -1,10 +1,10 @@
 import "reflect-metadata";
-import { createConnection, ConnectionOptions } from "typeorm";
-import * as express from "express";
-import * as bodyParser from "body-parser";
+import express from "express";
+import bodyParser from "body-parser";
 import {Request, Response} from "express";
 import {Routes} from "./routes";
 import {User} from "./entity/User";
+import { createConnection, ConnectionOptions } from "typeorm";
 
 createConnection(
   <ConnectionOptions>{
@@ -12,7 +12,7 @@ createConnection(
     extra: {  ssl: process.env.DATABASE_URL ? true : false, },
     // Change the next line to use the Heroku postgresql from other environment like localhost, remenber that heroku changes this data periodically for security reasons
     url: process.env.DATABASE_URL || "postgres://test:test@localhost:5432/test", 
-    entities: [ "src/entity/**/*.ts" ],
+    entities: [ "dist/entity/**/*.js" ],
     subscribers: [],
     synchronize: true,
   }
