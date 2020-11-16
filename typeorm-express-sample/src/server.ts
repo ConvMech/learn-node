@@ -10,6 +10,10 @@ console.log("start")
 console.log("database url", process.env.DATABASE_URL)
 
 createConnection().then(async connection => {
+    // execute migration
+    await connection.runMigrations();
+    
+    console.log("finish migration")
 
     // create express app
     const app = express();

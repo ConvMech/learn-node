@@ -12,6 +12,10 @@ const getOptions = () => {
             }
         },
         entities: ['dist/entity/*.*'],
+        migrations: ["dist/migrations/*.js"],
+        cli: {
+            migrationsDir: 'src/migrations',
+        }
     };
     if (process.env.DATABASE_URL) {
         console.log("use HEROKU")
@@ -29,8 +33,9 @@ const getOptions = () => {
             entities: [
                 "dist/entity/*.*",
             ],
+            migrations: ["dist/migrations/*.js"],
             cli: {
-                migrationsDir: "dist/migration/*.*"
+                migrationsDir: 'src/migrations',
             }
         }
     }
