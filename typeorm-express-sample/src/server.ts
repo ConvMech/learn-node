@@ -4,42 +4,12 @@ import bodyParser from "body-parser";
 import {Request, Response} from "express";
 import {Routes} from "./routes";
 import {User} from "./entity/User";
-import { createConnection, ConnectionOptions, getConnectionOptions } from "typeorm";
+import { createConnection } from 'typeorm';
 
 console.log("start")
-console.log(process.env.DATABASE_URL)
-console.log("postgres://test:test@localhost:5432/test")
+console.log("database url", process.env.DATABASE_URL)
 
-const getOptions = async () => {
-  let connectionOptions: ConnectionOptions;
-  connectionOptions = {
-    type: 'postgres',
-    synchronize: false,
-    logging: false,
-    extra: {
-      ssl: {
-        rejectUnauthorized: false,
-      }
-    },
-    entities: ['dist/entity/*.*'],
-  };
-  if (process.env.DATABASE_URL) {
-    console.log("use HEROKU")
-    Object.assign(connectionOptions, { url: process.env.DATABASE_URL });
-  } else {
-    console.log("use local")
-    connectionOptions = await getConnectionOptions(); 
-  }
-  return connectionOptions;
-};
-
-const connect2Database = async (): Promise<any> => {
-  const typeormconfig = await getOptions();
-  let result = await createConnection(typeormconfig);
-  return result;
-};
-
-connect2Database().then(async connection => {
+createConnection().then(async connection => {
 
     // create express app
     const app = express();
