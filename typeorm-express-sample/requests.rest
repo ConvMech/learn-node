@@ -1,0 +1,16 @@
+GET http://localhost:3000/posts 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiaWF0IjoxNjA1NjAyOTI2fQ.Kc--DpkzQCPs-kQntfU27znDdQ5YrTq0rkFwO74hWrE
+
+###
+
+GET http://localhost:3000/posts/0
+
+###
+
+POST http://localhost:3000/signin  
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "123"
+}

@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import express from "express";
 import bodyParser from "body-parser";
-import {Request, Response} from "express";
-import {Routes} from "./routes";
+import {Request, Response, NextFunction} from "express";
+import {Routes, SignInRoutes} from "./routes";
 import { createConnection } from 'typeorm';
 import { userInfo } from "os";
 import { Account } from "./entity/Account";
@@ -23,7 +23,10 @@ createConnection().then(async connection => {
 
     // register express routes from defined application routes
     Routes.forEach(route => {
-        (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
+        (app as any)[route.method](
+            route.route, 
+            route.middlewares || [],
+            (req: Request, res: Response, next: Function) => {
             const result = (new (route.controller as any))[route.action](req, res, next);
             if (result instanceof Promise) {
                 result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
@@ -33,6 +36,19 @@ createConnection().then(async connection => {
             }
         });
     });
+
+    SignInRoutes.forEach(route => {
+      (app as any)[route.method]
+      (route.route, 
+        route.validator || [],
+        (req: Request, res: Response, next: NextFunction) => {
+          route.handler(req, res, next)
+            .then(() => next)
+            .catch(err => next(err));
+        },
+      );
+    });
+    
 
     // setup express app here
     // ...
