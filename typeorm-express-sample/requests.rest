@@ -14,3 +14,18 @@ Content-Type: application/json
   "email": "test@test.com",
   "password": "123"
 }
+
+###
+POST https://serene-harbor-37805.herokuapp.com/signin  
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "123"
+}
+
+###
+
+GET https://serene-harbor-37805.herokuapp.com/posts 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiaWF0IjoxNjA1NjAzMjQ3fQ.a4KgcS5X7rjGuYMIp-HRjsAGhnTt1rMfvUteEFxddLU
+
