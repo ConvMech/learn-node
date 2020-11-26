@@ -1,6 +1,7 @@
 import {PostController} from "./controller/PostController";
-import {postSigninHandler} from "./handler/post.signin"
+import {postSigninHandler} from "./controller/post.signin"
 import {postSignInValidator} from "./types/account.validator"
+import {postPostValidator} from "./types/post.validator"
 import {checkJwt} from "./middlewares/checkJwt"
 
 export const Routes = [{
@@ -13,16 +14,20 @@ export const Routes = [{
     method: "get",
     route: "/posts/:id",
     controller: PostController,
+    middlewares: checkJwt,
     action: "one"
 }, {
     method: "post",
     route: "/posts",
     controller: PostController,
+    middlewares: checkJwt,
+    validator: postPostValidator,
     action: "save"
 }, {
     method: "delete",
     route: "/posts/:id",
     controller: PostController,
+    middlewares: checkJwt,
     action: "remove"
 }];
 

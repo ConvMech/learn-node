@@ -26,6 +26,7 @@ createConnection().then(async connection => {
         (app as any)[route.method](
             route.route, 
             route.middlewares || [],
+            route.validator || [],
             (req: Request, res: Response, next: Function) => {
             const result = (new (route.controller as any))[route.action](req, res, next);
             if (result instanceof Promise) {
@@ -38,8 +39,8 @@ createConnection().then(async connection => {
     });
 
     SignInRoutes.forEach(route => {
-      (app as any)[route.method]
-      (route.route, 
+      (app as any)[route.method](
+        route.route, 
         route.validator || [],
         (req: Request, res: Response, next: NextFunction) => {
           route.handler(req, res, next)

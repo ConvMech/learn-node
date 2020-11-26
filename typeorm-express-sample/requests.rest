@@ -4,6 +4,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiaWF0IjoxN
 ###
 
 GET http://localhost:3000/posts/0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiaWF0IjoxNjA1NjAyOTI2fQ.Kc--DpkzQCPs-kQntfU27znDdQ5YrTq0rkFwO74hWrE
+
+###
+POST http://localhost:3000/posts 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNjA2MzcwMDkxfQ.9MHTVTlacNQQBEI0SPQ1vHZsVTgxh4KkocY5R4YlcVg
+Content-Type: application/json
+
+{
+  "title": "post3",
+  "text": "3 words"
+}
 
 ###
 
@@ -12,6 +23,16 @@ Content-Type: application/json
 
 {
   "email": "test@test.com",
+  "password": "123"
+}
+
+###
+
+POST http://localhost:3000/signin  
+Content-Type: application/json
+
+{
+  "email": "test2@test.com",
   "password": "123"
 }
 
