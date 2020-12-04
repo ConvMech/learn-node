@@ -20,7 +20,10 @@ createConnection().then(async connection => {
     // create express app
     const app = express();
     app.use(bodyParser.json());
-
+    app.set('view engine', 'jade');
+    app.get('/', (req, res) => {
+      res.render('index');
+    });
     // register express routes from defined application routes
     Routes.forEach(route => {
         (app as any)[route.method](
