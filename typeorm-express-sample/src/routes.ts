@@ -1,6 +1,8 @@
 import {PostController} from "./controller/PostController";
 import {postSigninHandler} from "./controller/post.signin"
-import {postSignInValidator} from "./types/account.validator"
+import {postRegisterHandler} from "./controller/post.register"
+import {postSignInValidator} from "./types/account.signin.validator"
+import {regesiterValidator} from "./types/account.register.validator"
 import {postPostValidator} from "./types/post.validator"
 import {checkJwt} from "./middlewares/checkJwt"
 
@@ -37,5 +39,11 @@ export const SignInRoutes = [
     method: 'post',
     handler: postSigninHandler,
     validator: postSignInValidator,
+  },
+  {
+    route: '/register',
+    method: 'post',
+    handler: postRegisterHandler,
+    validator: regesiterValidator,
   }
 ]

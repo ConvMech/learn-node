@@ -15,7 +15,6 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   if (token == null) return res.sendStatus(401)
 
   jwt.verify(token, jwtSecret, (err, user) => {
-    console.log(err)
     if (err) return res.sendStatus(403)
     req.user = user
     next()

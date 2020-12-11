@@ -34,17 +34,7 @@ export class PostController {
         result.push(newPost);
       });
 
-      response.status(200).json(result);
-
-      // const postList =  await getRepository(Post)
-      // .createQueryBuilder("post")
-      // //.leftJoinAndSelect("post.account", "account")
-      // //  .select("account.id")
-      // .getMany();
-  
-      // console.log(postList)
-
-      // return response.status(200).json(postList);   
+      response.status(200).json(result); 
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
@@ -62,7 +52,7 @@ export class PostController {
       });
       const post = await getRepository(Post).save(newPost);
     
-      response.status(201).json({ id: post.id });
+      response.status(200).json({ id: post.id });
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
