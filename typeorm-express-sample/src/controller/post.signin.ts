@@ -17,8 +17,6 @@ export async function postSigninHandler(req: Request, res: Response, next: NextF
   const body: PostSigninBody = req.body;
   const email = body.email;
   const password = body.password;
-
-  await delay(1000);
   
   const account = await getRepository(Account).findOne({ email });
   if (!account){
