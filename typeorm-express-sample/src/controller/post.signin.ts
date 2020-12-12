@@ -9,18 +9,32 @@ interface PostSigninBody{
   password: string
 }
 
+function delay(ms: number) {
+  return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
 export async function postSigninHandler(req: Request, res: Response, next: NextFunction){
   const body: PostSigninBody = req.body;
   const email = body.email;
   const password = body.password;
+
+  await delay(1000);
   
   const account = await getRepository(Account).findOne({ email });
-  if (!account) return sendError(400, 'invalid email', next);
+  if (!account){
+    res.status(400).json({ 
+      error: "user not found"
+    });
+  }
 
-  if (password != account.password) return sendError(400, 'invalid password', next);
+  if (password != account.password){
+    res.status(400).json({ 
+      error: "password not correct"
+    });
+  }
 
   const accessToken = await getTokenById(account.id);
-
+  
   res.status(200).json({ 
     access_token: accessToken, 
     expires_in: "None"
